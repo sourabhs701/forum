@@ -1,16 +1,288 @@
-<p style="color: orange; font-weight: bold;">
-  This forum is under <strong>beta version</strong>. Please contact 
-  <a href="https://srb.codes" target="_blank" style="color: white; text-decoration: underline;">srb.codes | Maintainer</a> to request access.
-</p>
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <h1>Welcome Back</h1>
+      <p>Sign in to your account</p>
+    </div>
 
-<%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
-<%= tag.div(flash[:notice], style: "color:green") if flash[:notice] %>
+    <div class="beta-notice">
+      <div class="beta-badge">
+        <span class="beta-icon">⚡</span>
+        <div class="beta-text">
+          <strong>Beta Version</strong>
+          <p>This forum is under Maintenance . Contact <a href="https://srb.codes" target="_blank">srb.codes</a> for access.</p>
+        </div>
+      </div>
+    </div>
 
-<%= form_with url: session_path do |form| %>
-  <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address] %><br>
-  <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72 %><br>
-  <%= form.submit "Sign in" %>
-<% end %>
-<br>
+    <% if flash[:alert] %>
+      <div class="alert alert-error">
+        <span class="alert-icon">⚠️</span>
+        <%= flash[:alert] %>
+      </div>
+    <% end %>
 
-<%= link_to "Forgot password?", new_password_path %>
+    <% if flash[:notice] %>
+      <div class="alert alert-success">
+        <span class="alert-icon">✅</span>
+        <%= flash[:notice] %>
+      </div>
+    <% end %>
+
+    <%= form_with url: session_path, class: "login-form", local: true do |form| %>
+      <div class="form-group">
+        <%= form.label :email_address, "Email Address", class: "form-label" %>
+        <%= form.email_field :email_address, 
+            required: true, 
+            autofocus: true, 
+            autocomplete: "username", 
+            placeholder: "Enter your email address", 
+            value: params[:email_address],
+            class: "form-input" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :password, "Password", class: "form-label" %>
+        <%= form.password_field :password, 
+            required: true, 
+            autocomplete: "current-password", 
+            placeholder: "Enter your password", 
+            maxlength: 72,
+            class: "form-input" %>
+      </div>
+
+      <%= form.submit "Sign In", class: "btn-primary" %>
+    <% end %>
+
+    <div class="login-footer">
+      <%= link_to "Forgot your password?", new_password_path, class: "forgot-link" %>
+    </div>
+  </div>
+</div>
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  .login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .login-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 100%;
+    max-width: 440px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .login-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+  }
+
+  .login-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .login-header h1 {
+    color: #1a202c;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.025em;
+  }
+
+  .login-header p {
+    color: #718096;
+    font-size: 16px;
+    margin: 0;
+  }
+
+  .beta-notice {
+    margin-bottom: 24px;
+  }
+
+  .beta-badge {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: linear-gradient(135deg, #fef3c7, #fcd34d);
+    border: 1px solid #f59e0b;
+    border-radius: 12px;
+    padding: 16px;
+  }
+
+  .beta-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .beta-text strong {
+    color: #92400e;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .beta-text p {
+    color: #a16207;
+    font-size: 14px;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .beta-text a {
+    color: #92400e;
+    text-decoration: underline;
+    font-weight: 500;
+  }
+
+  .beta-text a:hover {
+    color: #78350f;
+  }
+
+  .alert {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .alert-error {
+    background-color: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fca5a5;
+  }
+
+  .alert-success {
+    background-color: #dcfce7;
+    color: #16a34a;
+    border: 1px solid #86efac;
+  }
+
+  .alert-icon {
+    flex-shrink: 0;
+  }
+
+  .login-form {
+    margin-bottom: 24px;
+  }
+
+  .form-group {
+    margin-bottom: 24px;
+  }
+
+  .form-label {
+    display: block;
+    color: #374151;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: 0.025em;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    background-color: #ffffff;
+    color: black;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  }
+
+  .form-input::placeholder {
+    color: #9ca3af;
+  }
+
+  .btn-primary {
+    width: 100%;
+    background: blue;
+    color: white;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.025em;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .login-footer {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  .forgot-link {
+    color: #667eea;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .forgot-link:hover {
+    color: #764ba2;
+    text-decoration: underline;
+  }
+
+  @media (max-width: 480px) {
+    .login-container {
+      padding: 16px;
+    }
+    
+    .login-card {
+      padding: 32px 24px;
+    }
+    
+    .login-header h1 {
+      font-size: 24px;
+    }
+    
+    .beta-badge {
+      padding: 12px;
+    }
+  }
+</style>
